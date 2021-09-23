@@ -25,5 +25,9 @@ module.exports = {
 
     update(id, data) {
         return Model.update(data, { where: { id: id } })
+    },
+
+    delete(id){
+        return Model.destroy({where:{id:id}})
     }
 }

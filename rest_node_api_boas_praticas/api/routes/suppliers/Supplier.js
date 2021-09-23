@@ -12,6 +12,7 @@ class Supplier{
     }
 
     async create(){
+        this.validar()
         const result = await TableSupplier.insert({
             company: this.company,
             mail: this.mail,
@@ -50,6 +51,21 @@ class Supplier{
         }
 
         await TableSupplier.update(this.id, dataToUpdate)
+    }
+
+    remove(){
+        return TableSupplier.delete(this.id);
+    }
+
+    validar(){
+        const fields = ['company', 'mail', 'category']
+
+        fields.forEach((field)=>{
+            const value = this[field]
+            if(typeof value !== 'string' || value.length === 0){
+                throw new Error(`O campo '${campo}' está inválido`)                
+            }
+        })
     }
 }
 

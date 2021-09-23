@@ -8,10 +8,15 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const dadosRecebidos = req.body
-    const supplier = new Supplier(dadosRecebidos)
-    await supplier.create()
-    res.send(JSON.stringify(supplier))
+    try {
+        const dadosRecebidos = req.body
+        const supplier = new Supplier(dadosRecebidos)
+        await supplier.create()
+        res.send(JSON.stringify(supplier))
+    } catch (error) {
+        res.send(JSON.stringify({ mensagem: error.message }))
+    }
+
 })
 
 router.get("/:id", async (req, res) => {
@@ -32,6 +37,18 @@ router.put('/:id', async (req, res) => {
         const dados = Object.assign({}, dadosRecebidos, { id: id })
         const supplier = new Supplier(dados)
         await supplier.update()
+        res.end()
+    } catch (error) {
+        res.status(400).send(JSON.stringify({ mensagem: error.message }))
+    }
+})
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const id = req.params.id
+        const supplier = new Supplier({ id: id })
+        await supplier.get()
+        await supplier.remove()
         res.end()
     } catch (error) {
         res.status(400).send(JSON.stringify({ mensagem: error.message }))
