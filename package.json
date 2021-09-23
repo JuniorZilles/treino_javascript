@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "moment": "^2.29.1",
-    "mysql2": "^2.3.0"
-  }
-}
