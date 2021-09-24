@@ -1,5 +1,6 @@
 const TableSupplier = require('./TableSupplier')
-
+const InvalidField = require('../../errors/InvalidField')
+const NoData = require('../../errors/NoData')
 class Supplier{
     constructor({id, company, mail, category, createdAt, updatedAt, version}){
         this.id = id, 
@@ -47,7 +48,7 @@ class Supplier{
             }
         })
         if (Object.keys(dataToUpdate).length === 0){
-            throw new Error("Não foram fornecidos dados para atualizar")
+            throw new NoData()
         }
 
         await TableSupplier.update(this.id, dataToUpdate)
@@ -63,7 +64,7 @@ class Supplier{
         fields.forEach((field)=>{
             const value = this[field]
             if(typeof value !== 'string' || value.length === 0){
-                throw new Error(`O campo '${campo}' está inválido`)                
+                throw new InvalidField(field)                
             }
         })
     }

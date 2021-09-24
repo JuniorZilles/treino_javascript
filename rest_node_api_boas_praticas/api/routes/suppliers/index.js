@@ -1,57 +1,63 @@
 const router = require('express').Router()
 const TableSupplier = require('./TableSupplier')
 const Supplier = require('./Supplier')
+const SerializerSupplier = require('../../Serializer').SerializerSupplier
+
 
 router.get("/", async (req, res) => {
     const results = await TableSupplier.list()
-    res.send(JSON.stringify(results))
+    const serializer = new SerializerSupplier(res.getHeader('Content-Type'))
+
+    res.status(200).send(serializer.serialize(results))
 })
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
     try {
         const dadosRecebidos = req.body
         const supplier = new Supplier(dadosRecebidos)
         await supplier.create()
-        res.send(JSON.stringify(supplier))
+        const serializer = new SerializerSupplier(res.getHeader('Content-Type'))
+        res.status(201).send(serializer.serialize(supplier))
     } catch (error) {
-        res.send(JSON.stringify({ mensagem: error.message }))
+        next(error)
     }
 
 })
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
     try {
         const id = req.params.id
         const supplier = new Supplier({ id: id })
         await supplier.get()
-        res.send(JSON.stringify(supplier))
+        const serializer = new SerializerSupplier(res.getHeader('Content-Type'), ['mail', 'createdAt', 'updatedAt', 'version'])
+        res.status(200).send(serializer.serialize(supplier))
     } catch (error) {
-        res.send(JSON.stringify({ mensagem: error.message }))
+       next(error)
     }
 })
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res, next) => {
     try {
         const id = req.params.id
         const dadosRecebidos = req.body
         const dados = Object.assign({}, dadosRecebidos, { id: id })
         const supplier = new Supplier(dados)
         await supplier.update()
-        res.end()
+        res.status(204).end()
     } catch (error) {
-        res.status(400).send(JSON.stringify({ mensagem: error.message }))
+        next(error)
     }
 })
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
     try {
         const id = req.params.id
         const supplier = new Supplier({ id: id })
         await supplier.get()
         await supplier.remove()
-        res.end()
+        res.status(204).end()
     } catch (error) {
-        res.status(400).send(JSON.stringify({ mensagem: error.message }))
+        next(error)
     }
 })
 

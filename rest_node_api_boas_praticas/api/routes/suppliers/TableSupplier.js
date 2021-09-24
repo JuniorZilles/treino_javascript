@@ -1,8 +1,9 @@
 const Model = require("./SupplierTableModel")
+const NotFound = require('../../errors/NotFound')
 
 module.exports = {
     list() {
-        return Model.findAll()
+        return Model.findAll({raw:true})
     },
 
     insert(supplier) {
@@ -17,7 +18,7 @@ module.exports = {
         })
 
         if (!found) {
-            throw new Error('Fornecedor não encontrado')
+            throw new NotFound()
         }
 
         return found

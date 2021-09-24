@@ -11,7 +11,6 @@ router.post('/', (req,res)=>{
     } catch (error) {
         res.send(JSON.stringify({ mensagem: error.message }))
     }
-    
 })
 
 
