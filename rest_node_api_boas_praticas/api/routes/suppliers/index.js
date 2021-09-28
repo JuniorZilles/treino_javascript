@@ -61,4 +61,8 @@ router.delete("/:id", async (req, res, next) => {
     }
 })
 
+const productRouter = require('./products');
+
+router.use('/:id/products', productRouter)
+
 module.exports = router
