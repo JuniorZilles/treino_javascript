@@ -13,7 +13,7 @@ class Serializer{
                 return {[this.tagSingular]:item}
             })
         }
-       return jsontoxml({[this.tag]:data})
+        return jsontoxml({[tag]:data})
     }
 
     serialize(data){
@@ -55,8 +55,18 @@ class SerializerSupplier extends Serializer{
         super()
         this.publicFields = ['id', 'company', 'category'].concat(extraFields || [])
         this.contentType = contentType
-        this.tagSingular = 'fornecedor'
-        this.tagPlural = 'fornecedores'
+        this.tagSingular = 'supplier'
+        this.tagPlural = 'suppliers'
+    }
+}
+
+class SerializerProduct extends Serializer{
+    constructor(contentType, extraFields){
+        super()
+        this.publicFields = ['id', 'titulo'].concat(extraFields || [])
+        this.contentType = contentType
+        this.tagSingular = 'product'
+        this.tagPlural = 'products'
     }
 }
 
@@ -74,5 +84,6 @@ module.exports = {
     Serializer:Serializer,
     SerializerSupplier:SerializerSupplier,
     SerializerError:SerializerError,
+    SerializerProduct:SerializerProduct,
     formatosAceitos:['application/json', 'application/xml']
 }

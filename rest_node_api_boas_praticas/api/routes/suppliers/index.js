@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const TableSupplier = require('./TableSupplier')
+const TableProduct = require('./products/TableProduct')
 const Supplier = require('./Supplier')
 const SerializerSupplier = require('../../Serializer').SerializerSupplier
 
@@ -61,8 +62,33 @@ router.delete("/:id", async (req, res, next) => {
     }
 })
 
+router.post('/:id/warehouse-reposition', async (req, res, next) => {
+    try {
+      const fornecedor = new Supplier({ id: req.params.idFornecedor })
+      await fornecedor.get()
+      const produtos = await TableProduct.listar(fornecedor.id, { estoque: 0 })
+      res.status(200).send({
+          mensagem: `${produtos.length} precisam de reposição de estoque`
+      })
+    } catch (erro) {
+        next(erro)
+    }
+  })
 const productRouter = require('./products');
 
-router.use('/:id/products', productRouter)
+const verifySupplier = async (req, res, next) =>{
+    try{
+        const id= req.params.id;
+        const sup =new Supplier({id:id});
+        await sup.get();
+        // disponibiliza para as subrotas o valor do objeto
+        req.supplier = sup;
+        next();
+    }catch(error){
+        next(error);
+    }
+}
+
+router.use('/:id/products', verifySupplier, productRouter)
 
 module.exports = router
