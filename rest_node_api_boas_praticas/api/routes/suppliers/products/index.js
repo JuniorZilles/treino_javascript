@@ -3,6 +3,13 @@ const Table = require('./TableProduct')
 const Produto = require('./Product')
 const SerializerProduct = require('../../../Serializer').SerializerProduct
 
+router.options('/', (req, res)=>{
+  res.set("Access-Control-Allow-Methods", 'GET, POST')
+  res.set("Access-Control-Allow-Headers", 'Content-Type')
+  res.status(204)
+  res.end()
+})
+
 router.get('/', async (req, res) => {
   const prod = await Table.list(req.supplier.id)
   const serializer = new SerializerProduct(res.getHeader('Content-Type'))
@@ -25,6 +32,13 @@ router.post('/', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.options('/:idProd', (req, res)=>{
+  res.set("Access-Control-Allow-Methods", 'GET, PUT, HEAD, DELETE')
+  res.set("Access-Control-Allow-Headers", 'Content-Type')
+  res.status(204)
+  res.end()
 })
 
 router.delete('/:idProd', async (req, res) => {
@@ -55,6 +69,20 @@ router.get('/:idProd', async (req, res, next) => {
   }
 })
 
+router.head('/:idProd', async (req, res, next) => {
+  try {
+    const dados = { id: req.params.idProd, supplier: req.supplier.id }
+    const prod = new Produto(dados)
+    await prod.getProduct()
+    res.set("ETag", prod.version)
+    const timestamp = (new Date(prod.updatedAt)).getTime()
+    res.set('Last-Modiefied', timestamp)
+    res.status(200).end()
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.put('/:idProd', async (req, res, next) => {
   try {
     const dados = Object.assign({}, req.body, {
@@ -71,6 +99,13 @@ router.put('/:idProd', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.options('/:idProd/decrement', (req, res)=>{
+  res.set("Access-Control-Allow-Methods", 'POST')
+  res.set("Access-Control-Allow-Headers", 'Content-Type')
+  res.status(204)
+  res.end()
 })
 
 router.post('/:idProd/decrement', async (req, res, next) => {

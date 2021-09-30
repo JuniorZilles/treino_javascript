@@ -34,7 +34,7 @@ module.exports = {
         });        
 
         if (!found) {
-            throw new NotFound("Produto não encontrado");
+            throw new NotFound("Produto");
         }
         return found;
     },

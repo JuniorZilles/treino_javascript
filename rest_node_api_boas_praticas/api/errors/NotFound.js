@@ -1,6 +1,6 @@
 class NotFound extends Error{
-    constructor(message){
-        super(message||'Fornecedor não foi encontrado!')
+    constructor(nome){
+        super(`${nome} não foi encontrado!`)
         this.name = 'NotFound'
         this.idError = 0
     }

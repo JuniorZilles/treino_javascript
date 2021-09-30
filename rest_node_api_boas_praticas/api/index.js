@@ -26,11 +26,24 @@ app.use((req, res, next)=>{
     }
 
     res.setHeader('Content-Type', formatoRequisitado)
+    
+    next()
+})
+
+app.use((req, res, next)=>{
+    res.set("X-Powered-By", "Gatito")
+    res.set('Access-Control-Allow-Origin', "*")
+    // res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    // verificar por que não funciona pelo navegador
+    // res.set("Content-Security-Policy", "default-src 'none'; script-src 'self'; connect-src 'self'; img-src 'self'; style-src 'self';base-uri 'self';form-action 'self';")
     next()
 })
 
 const router = require("./routes/suppliers")
 app.use("/api/suppliers", router)
+
+const v2_router = require('./routes/suppliers/routes.v2')
+app.use('/api/v2/suppliers', v2_router)
 
 app.use((error, req, res, next)=>{
     let status = 500
