@@ -1,0 +1,15 @@
+{
+    "pagamento": {
+        "forma_pagamento": "cartao",
+        "valor": 68.5,
+        "moeda": "USD",
+        "descricao": "criando 8 pagamento"
+    },
+    "cartao": {
+        "numero": 1236565656565,
+        "bandeira": "visa",
+        "ano_expiracao": 2016,
+        "mes_expiracao": 12,
+        "cvv": 123
+    }
+}
