@@ -13,7 +13,7 @@ export class Negociation {
     }
     static criaDe(dateString, quantityNumber, valueNumber) {
         const exp = /-/g;
-        const date = new Date(dateString.replace(exp, ''));
+        const date = new Date(dateString.replace(exp, ','));
         return new Negociation(date, quantityNumber, valueNumber);
     }
 }

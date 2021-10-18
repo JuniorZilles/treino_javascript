@@ -6,7 +6,10 @@
         "noEmitOnError": true,
         "noImplicitAny": true,
         "removeComments": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "experimentalDecorators": true,
+        // permite debugar no console do navegador em tempo de execução
+        "sourceMap": true
     }, "include": [
         "app/**/*"
     ]

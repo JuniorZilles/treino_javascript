@@ -1,4 +1,3 @@
-import { Negociations } from "../models/negociations.js"
 import { View } from "./view.js"
 
 export class MessageView extends View<string>{
@@ -8,6 +7,4 @@ export class MessageView extends View<string>{
             <p class="alert alert-info">${model}</p>
         `
     }
-
-    
 }

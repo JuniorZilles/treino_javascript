@@ -10,3 +10,12 @@ if (form) {
 else {
     throw Error('Form not found');
 }
+const botaoImport = document.querySelector("#botao-importa");
+if (botaoImport) {
+    botaoImport.addEventListener('click', () => {
+        controller.importData();
+    });
+}
+else {
+    throw Error('Button import not found');
+}

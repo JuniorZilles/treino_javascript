@@ -1,22 +1,15 @@
 export class View {
-    constructor(selector, escape) {
-        this.escape = false;
+    constructor(selector) {
         const element = document.querySelector(selector);
         if (element) {
             this.element = element;
         }
         else {
-            throw Error(`Seltor ${selector} not found on DOM`);
-        }
-        if (escape) {
-            this.escape = escape;
+            throw Error(`Selector ${selector} not found on DOM`);
         }
     }
     update(model) {
         let template = this.template(model);
-        if (this.escape) {
-            template = template.replace(/<cript>[\s\S]*?<\/cript>/, '');
-        }
         this.element.innerHTML = template;
     }
 }
