@@ -16,6 +16,8 @@ nest g service <name>
 
 # generates all previews files with simple crud operations
 nest g resource todos
+    - select REST API
+    - select yes to generate the CRUD operations
 ```
 
 ### PACKAGES
