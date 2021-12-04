@@ -13,6 +13,9 @@ nest g controller <name>
 
 # generates a new service and updates to refer to controller
 nest g service <name>
+
+# generates all previews files with simple crud operations
+nest g resource todos
 ```
 
 ### PACKAGES
